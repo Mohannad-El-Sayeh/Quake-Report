@@ -45,13 +45,16 @@ public class EarthquakeAdapter extends RecyclerView.Adapter<EarthquakeViewHolder
     }
 
     public void clear(){
-        for (int i = 0; i < earthquakes.size(); i++)
-            earthquakes.set(i, null);
+        earthquakes.clear();
         notifyDataSetChanged();
     }
 
     public void addAll(List<Earthquake> earthquakes1){
         earthquakes.addAll(earthquakes1);
         notifyDataSetChanged();
+    }
+
+    public boolean isEmpty(){
+        return earthquakes.isEmpty();
     }
 }

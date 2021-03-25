@@ -12,7 +12,7 @@ public class Earthquake {
     private long time;
     private String url;
 
-    private final String LOCATION_SPLITTER = "of";
+    private final String LOCATION_SPLITTER = " of ";
 
     public Earthquake(double magnitude, String location, long time, String url) {
         this.magnitude = magnitude;
@@ -98,7 +98,7 @@ public class Earthquake {
         String locationOffset;
         if(location.contains(LOCATION_SPLITTER)){
             locationOffset = location.substring(0, location.indexOf(LOCATION_SPLITTER));
-            locationOffset = locationOffset + " " + LOCATION_SPLITTER;
+            locationOffset = locationOffset + LOCATION_SPLITTER;
         }else{
             locationOffset = "Near the ";
         }
