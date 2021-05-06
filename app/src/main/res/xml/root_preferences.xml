@@ -1,0 +1,17 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:title="@string/title_activity_settings">
+    <EditTextPreference
+        android:defaultValue="@string/settings_min_mag_default"
+        android:key="@string/settings_min_mag_key"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:dialogLayout="@layout/preference_edit_text"
+        android:title="@string/settings_min_mag_label" />
+    <ListPreference
+        android:defaultValue="@string/settings_order_by_default_value"
+        android:entries="@array/settings_order_by_labels"
+        android:entryValues="@array/settings_order_by_values"
+        android:key="@string/settings_order_by_key"
+        android:title="@string/settings_order_by_label" />
+</PreferenceScreen>

@@ -2,11 +2,14 @@ package com.msaye7.quakereport;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -16,6 +19,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.Loader;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements EarthquakeAdapter
     TextView emptyView;
     ProgressBar loadingPB;
     TextView noInternet;
-    private static final String SAMPLE_URL = "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&eventtype=earthquake&orderby=time&limit=50";
+    private static final String USGS_QUERY_URL = "https://earthquake.usgs.gov/fdsnws/event/1/query";
 
     private EarthquakeAdapter mAdapter;
 
@@ -58,6 +62,23 @@ public class MainActivity extends AppCompatActivity implements EarthquakeAdapter
         recyclerViewParent.setLayoutManager(linearLayoutManager);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            Intent settingsIntent = new Intent(this, SettingsActivity.class);
+            startActivity(settingsIntent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     boolean isConnected(){
         ConnectivityManager cm =
                 (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -78,9 +99,21 @@ public class MainActivity extends AppCompatActivity implements EarthquakeAdapter
     @NonNull
     @Override
     public Loader<List<Earthquake>> onCreateLoader(int id, @Nullable Bundle args) {
-        Log.e(LOG_TAG, "onCreate loader called.");
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        String minMag = sharedPreferences.getString(getString(R.string.settings_min_mag_key), getString(R.string.settings_min_mag_default));
+        String orderBy = sharedPreferences.getString(getString(R.string.settings_order_by_key), getString(R.string.settings_order_by_default_value));
+
+        Uri baseUri = Uri.parse(USGS_QUERY_URL);
+        Uri.Builder uriBuilder = baseUri.buildUpon();
+
+        uriBuilder.appendQueryParameter("format", "geojson");
+        uriBuilder.appendQueryParameter("limit", "50");
+        uriBuilder.appendQueryParameter("minmag", minMag);
+        uriBuilder.appendQueryParameter("orderby", orderBy);
+
         loadingPB.setVisibility(View.VISIBLE);
-        return new EarthquakeLoader(this, SAMPLE_URL);
+        return new EarthquakeLoader(this, uriBuilder.toString());
     }
 
     @Override

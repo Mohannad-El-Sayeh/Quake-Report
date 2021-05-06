@@ -2,4 +2,26 @@
     <string name="app_name">QuakeReport</string>
     <string name="no_data">No earthquake data found</string>
     <string name="internet_error">No internet connection</string>
+    <string name="title_activity_settings">Earthquake Settings</string>
+    <string name="settings">Settings</string>
+
+    <!-- Preference Titles -->
+    <string name="settings_min_mag_label">Minimum Magnitude</string>
+    <string name="settings_order_by_label">Order By</string>
+
+    <!-- Minimum magnitude Preferences -->
+    <string name="settings_min_mag_key" translatable="false">min_magnitude</string>
+    <string name="settings_min_mag_default" translatable="false">5</string>
+
+    <!-- Order by preferences -->
+    <string name="settings_order_by_key" translatable="false">order_by</string>
+    <string name="settings_order_by_default_value" translatable="false">@string/settings_order_by_time_value</string>
+
+    <!-- Order by time -->
+    <string name="settings_order_by_time_label">Time</string>
+    <string name="settings_order_by_time_value" translatable="false">time</string>
+
+    <!-- Order by magnitude -->
+    <string name="settings_order_by_magnitude_label">Magnitude</string>
+    <string name="settings_order_by_magnitude_value" translatable="false">magnitude</string>
 </resources>
